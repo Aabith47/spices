@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Page</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/92d70a2fd8.js" crossorigin="anonymous"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 400px;
+            margin: auto;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .pay-btn, .back-btn {
+            width: 100%;
+            border: none;
+            padding: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        .pay-btn {
+            background-color: #28a745;
+            color: white;
+        }
+        .back-btn {
+            background-color: #6c757d;
+            color: white;
+        }
+        .payment-option {
+            text-align: left;
+            margin-bottom: 10px;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Payment Details</h2>
+        <p>Total Amount: <strong id="totalAmount">$0.00</strong></p>
+        
+        <div class="payment-option">
+            <input type="radio" name="paymentMethod" value="Credit/Debit Card" checked onclick="togglePaymentFields('card')"> Credit/Debit Card
+        </div>
+        <div class="payment-option">
+            <input type="radio" name="paymentMethod" value="UPI" onclick="togglePaymentFields('upi')"> UPI
+        </div>
+        <div class="payment-option">
+            <input type="radio" name="paymentMethod" value="Net Banking" onclick="togglePaymentFields('netbanking')"> Net Banking
+        </div>
+        <div class="payment-option">
+            <input type="radio" name="paymentMethod" value="Cash on Delivery" onclick="togglePaymentFields('cod')"> Cash on Delivery
+        </div>
+
+        <div id="cardFields">
+            <input type="text" class="form-control mb-3" placeholder="Card Number" required>
+            <input type="text" class="form-control mb-3" placeholder="Cardholder Name" required>
+            <input type="text" class="form-control mb-3" placeholder="Expiration Date (MM/YY)" required>
+            <input type="text" class="form-control mb-3" placeholder="CVV" required>
+        </div>
+        
+        <div id="upiField" class="hidden">
+            <input type="text" class="form-control mb-3" placeholder="UPI ID" required>
+        </div>
+        
+        <div id="netBankingField" class="hidden">
+            <select class="form-control mb-3">
+                <option>Select Bank</option>
+                <option>Bank of America</option>
+                <option>Chase Bank</option>
+                <option>Wells Fargo</option>
+                <option>Citi Bank</option>
+            </select>
+        </div>
+
+        <button class="pay-btn" onclick="proceedToPayment()">Proceed to bill</button>
+        <button class="back-btn" onclick="goBack()">Cancel Payment</button>
+    </div>
+
+    <script>
+        // Display total amount
+        document.getElementById("totalAmount").innerText = "$" + localStorage.getItem("totalAmount") + ".00";
+
+        // Toggle payment fields based on selected method
+        function togglePaymentFields(method) {
+            document.getElementById("cardFields").classList.toggle("hidden", method !== "card");
+            document.getElementById("upiField").classList.toggle("hidden", method !== "upi");
+            document.getElementById("netBankingField").classList.toggle("hidden", method !== "netbanking");
+        }
+
+        // Save payment method and redirect to bill.html
+        function proceedToPayment() {
+            const selectedPaymentMethod = document.querySelector('input[name="paymentMethod"]:checked').value;
+            localStorage.setItem("paymentMethod", selectedPaymentMethod); // Save payment method
+            window.location.href = "success.html"; // Redirect to bill page
+        }
+
+        // Go back to customer page
+        function goBack() {
+            window.location.href = "customer.html";
+        }
+
+        
+    </script>
+</body>
+</html>
